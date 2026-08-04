@@ -1,4 +1,4 @@
-# @spykoninho/eslint-config
+# @spyko/eslint-config
 
 Config ESLint partagée du golden path. Trois étages :
 
@@ -24,12 +24,12 @@ Les règles supposent la structure `src/modules/<contexte>/{domain,application,i
 ## Usage
 
 ```bash
-npm install -D eslint @spykoninho/eslint-config
+npm install -D eslint @spyko/eslint-config
 ```
 
 ```js
 // eslint.config.js
-import config from '@spykoninho/eslint-config'
+import config from '@spyko/eslint-config'
 
 export default config
 ```

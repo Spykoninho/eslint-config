@@ -1,5 +1,5 @@
 {
-  "name": "@spykoninho/eslint-config",
+  "name": "@spyko/eslint-config",
   "version": "0.1.0",
   "description": "Config ESLint partagée du golden path — règles de dépendance hexagonale incluses",
   "type": "module",
