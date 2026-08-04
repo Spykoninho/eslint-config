@@ -12,32 +12,32 @@ async function lint(file) {
   return result.messages.map((m) => m.ruleId)
 }
 
-describe('règles hexagonales', () => {
-  it('interdit un import externe dans le domaine (règle 1)', async () => {
+describe('hexagonal architecture rules', () => {
+  it('forbids external imports in the domain (rule 1)', async () => {
     expect(await lint('src/modules/orders/domain/entities/bad-external.ts')).toContain(
       'boundaries/external',
     )
   })
 
-  it("interdit au domaine d'importer l'infrastructure (règle 2)", async () => {
+  it('forbids the domain from importing infrastructure (rule 2)', async () => {
     expect(await lint('src/modules/orders/domain/entities/bad-layer.ts')).toContain(
       'boundaries/element-types',
     )
   })
 
-  it('interdit un import entre modules (règle 4)', async () => {
+  it('forbids imports across modules (rule 4)', async () => {
     expect(await lint('src/modules/orders/application/use-cases/bad-cross-module.ts')).toContain(
       'boundaries/element-types',
     )
   })
 
-  it('détecte une promesse non attendue (type-aware)', async () => {
+  it('detects an unawaited promise (type-aware)', async () => {
     expect(await lint('src/modules/orders/application/use-cases/bad-floating-promise.ts')).toContain(
       '@typescript-eslint/no-floating-promises',
     )
   })
 
-  it('accepte un module conforme', async () => {
+  it('accepts a compliant module', async () => {
     expect(await lint('src/modules/orders/application/use-cases/create-order.ts')).toEqual([])
     expect(await lint('src/modules/orders/infrastructure/persistence/prisma-order-repository.ts')).toEqual([])
   })

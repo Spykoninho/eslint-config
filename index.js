@@ -4,12 +4,12 @@ import boundaries from 'eslint-plugin-boundaries'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import prettier from 'eslint-config-prettier'
 
-// Règles hexagonales du golden path — cf. knowledge/architecture.md
+// Hexagonal architecture rules — see README for the underlying method
 const hexagonal = {
   files: ['**/*.ts'],
   plugins: { boundaries },
   settings: {
-    // Résout les imports TS sans extension (et les alias tsconfig) pour le plugin boundaries
+    // Resolves extensionless TS imports (and tsconfig aliases) for the boundaries plugin
     'import/resolver': { typescript: {} },
     'boundaries/elements': [
       { type: 'domain', pattern: 'src/modules/*/domain', capture: ['module'] },
@@ -18,7 +18,7 @@ const hexagonal = {
     ],
   },
   rules: {
-    // Règle 4 : aucun import direct entre modules ; règles 1-2 : sens des dépendances entre couches
+    // Rule 4: no direct imports between modules; rules 1-2: layer dependency direction
     'boundaries/element-types': [
       'error',
       {
@@ -43,7 +43,7 @@ const hexagonal = {
         ],
       },
     ],
-    // Règle 1 : le domaine n'importe rien d'externe (ni NestJS, ni Prisma, ni Zod)
+    // Rule 1: the domain imports nothing external (no NestJS, no Prisma, no Zod)
     'boundaries/external': [
       'error',
       {
@@ -54,7 +54,7 @@ const hexagonal = {
   },
 }
 
-// Qualité générale : règles à fort signal, autofixables quand possible
+// General quality: high-signal rules, autofixable where possible
 const quality = {
   plugins: { 'simple-import-sort': simpleImportSort },
   rules: {
@@ -67,7 +67,7 @@ const quality = {
 
 export default tseslint.config(
   js.configs.recommended,
-  // Type-aware : no-floating-promises, no-misused-promises, await-thenable…
+  // Type-aware: no-floating-promises, no-misused-promises, await-thenable…
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
   {
@@ -78,14 +78,14 @@ export default tseslint.config(
     },
   },
   {
-    // Les fichiers JS (configs, scripts) ne sont pas couverts par le type-checking
+    // JS files (configs, scripts) are excluded from type-checked linting
     files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
     ...tseslint.configs.disableTypeChecked,
   },
   quality,
   hexagonal,
   {
-    // Règle 3 (part lintable) : un use case = un fichier
+    // Rule 3 (lintable part): one use case = one file
     files: ['src/modules/*/application/use-cases/**/*.ts'],
     rules: { 'max-classes-per-file': ['error', 1] },
   },

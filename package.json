@@ -1,7 +1,15 @@
 {
   "name": "@spyko/eslint-config",
-  "version": "0.1.0",
-  "description": "Config ESLint partagée du golden path — règles de dépendance hexagonale incluses",
+  "version": "0.1.1",
+  "description": "Shareable ESLint config that enforces hexagonal architecture boundaries as lint errors, on top of a type-aware quality baseline",
+  "keywords": [
+    "eslint",
+    "eslintconfig",
+    "hexagonal-architecture",
+    "clean-architecture",
+    "boundaries",
+    "typescript"
+  ],
   "type": "module",
   "main": "index.js",
   "exports": {
