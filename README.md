@@ -1,7 +1,17 @@
 # @spykoninho/eslint-config
 
-Config ESLint partagée du golden path. Embarque les recommandations JS/TS, la
-neutralisation Prettier, et surtout **les règles de dépendance hexagonale** :
+Config ESLint partagée du golden path. Trois étages :
+
+**Qualité générale** — recommandations JS + TypeScript **type-aware**
+(`recommendedTypeChecked` + `stylisticTypeChecked` : `no-floating-promises`,
+`no-misused-promises`, `await-thenable`…), tri déterministe des imports
+(`simple-import-sort`, autofixable), `eqeqeq`, `no-console` en warning,
+neutralisation Prettier (le formatage reste à Prettier).
+
+**Prérequis** : un `tsconfig.json` à la racine du projet (le type-checking du lint
+s'appuie dessus via `projectService`).
+
+**Règles de dépendance hexagonale** :
 
 1. `domain/**` n'importe rien d'externe (ni NestJS, ni Prisma, ni Zod)
 2. Le sens des dépendances est forcé : infrastructure → application → domain, jamais l'inverse

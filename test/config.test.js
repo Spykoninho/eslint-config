@@ -31,6 +31,12 @@ describe('règles hexagonales', () => {
     )
   })
 
+  it('détecte une promesse non attendue (type-aware)', async () => {
+    expect(await lint('src/modules/orders/application/use-cases/bad-floating-promise.ts')).toContain(
+      '@typescript-eslint/no-floating-promises',
+    )
+  })
+
   it('accepte un module conforme', async () => {
     expect(await lint('src/modules/orders/application/use-cases/create-order.ts')).toEqual([])
     expect(await lint('src/modules/orders/infrastructure/persistence/prisma-order-repository.ts')).toEqual([])

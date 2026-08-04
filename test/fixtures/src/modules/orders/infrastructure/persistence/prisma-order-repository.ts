@@ -3,6 +3,6 @@ import { OrderRepository } from '../../domain/ports/order-repository'
 
 export class PrismaOrderRepository implements OrderRepository {
   async save(order: Order): Promise<void> {
-    void order
+    await Promise.resolve(order)
   }
 }

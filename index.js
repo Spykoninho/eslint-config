@@ -1,6 +1,7 @@
 import js from '@eslint/js'
 import tseslint from 'typescript-eslint'
 import boundaries from 'eslint-plugin-boundaries'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import prettier from 'eslint-config-prettier'
 
 // Règles hexagonales du golden path — cf. knowledge/architecture.md
@@ -53,9 +54,35 @@ const hexagonal = {
   },
 }
 
+// Qualité générale : règles à fort signal, autofixables quand possible
+const quality = {
+  plugins: { 'simple-import-sort': simpleImportSort },
+  rules: {
+    eqeqeq: ['error', 'smart'],
+    'no-console': 'warn',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
+  },
+}
+
 export default tseslint.config(
   js.configs.recommended,
-  ...tseslint.configs.recommended,
+  // Type-aware : no-floating-promises, no-misused-promises, await-thenable…
+  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+  },
+  {
+    // Les fichiers JS (configs, scripts) ne sont pas couverts par le type-checking
+    files: ['**/*.js', '**/*.mjs', '**/*.cjs'],
+    ...tseslint.configs.disableTypeChecked,
+  },
+  quality,
   hexagonal,
   {
     // Règle 3 (part lintable) : un use case = un fichier
