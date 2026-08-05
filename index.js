@@ -9,8 +9,8 @@ const hexagonal = {
   files: ['**/*.ts'],
   plugins: { boundaries },
   settings: {
-    // Resolves extensionless TS imports (and tsconfig aliases) for the boundaries plugin
-    'import/resolver': { typescript: {} },
+    // Resolves extensionless TS imports for the boundaries plugin
+    'import/resolver': { node: { extensions: ['.js', '.ts', '.tsx'] } },
     'boundaries/elements': [
       { type: 'domain', pattern: 'src/modules/*/domain', capture: ['module'] },
       { type: 'application', pattern: 'src/modules/*/application', capture: ['module'] },
@@ -84,6 +84,11 @@ export default tseslint.config(
   },
   quality,
   hexagonal,
+  {
+    // Spec files import their test framework; domain purity applies to production code
+    files: ['**/*.spec.ts'],
+    rules: { 'boundaries/external': 'off' },
+  },
   {
     // Rule 3 (lintable part): one use case = one file
     files: ['src/modules/*/application/use-cases/**/*.ts'],
